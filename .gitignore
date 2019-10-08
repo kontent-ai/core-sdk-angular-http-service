@@ -1,9 +1,15 @@
+# Custom
+.editorconfig
+
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/dist-demo
+/definitions
+/_commonjs
+/_es2015
+/_bundles
 /tmp
+/coverage
 /out-tsc
 
 # dependencies
@@ -31,9 +37,12 @@
 /coverage
 /libpeerconnection.log
 npm-debug.log
-yarn-error.log
 testem.log
 /typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
 
 # System Files
 .DS_Store
