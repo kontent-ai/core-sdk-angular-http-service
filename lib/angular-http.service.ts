@@ -11,7 +11,9 @@ import {
     IHttpQueryCall,
     IHttpQueryOptions,
     IHttpService,
-    retryStrategy,
+    observableRetryStrategy,
+    retryService,
+    IHttpPatchQueryCall
 } from '@kentico/kontent-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
@@ -19,45 +21,6 @@ import { catchError, map, retryWhen } from 'rxjs/operators';
 @Injectable()
 export class AngularHttpService implements IHttpService {
     constructor(private http: HttpClient) {}
-
-    retryPromise<T>(
-        promise: Promise<T>,
-        options: {
-            maxRetryAttempts: number;
-            useRetryForResponseCodes: number[];
-        },
-        currentAttempt: number
-    ): Promise<T> {
-        return new Promise((resolve, reject) =>
-            promise
-                .then(response => {
-                    resolve(response);
-                })
-                .catch((reason: any) => {
-                    let statusCode = 0;
-
-                    if (reason && reason.originalError && reason.originalError.request) {
-                        statusCode = reason.originalError.request.status;
-                    }
-
-                    const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
-                    if (!retryCode && retryCode !== 0) {
-                        return reject(reason);
-                    }
-
-                    const retryTimeout = this.getRetryTimeout(currentAttempt);
-                    if (currentAttempt <= options.maxRetryAttempts) {
-                        return this.promiseRetryWait(retryTimeout)
-                            .then(() => {
-                                return this.retryPromise(promise, options, currentAttempt + 1);
-                            })
-                            .then(response => resolve(response))
-                            .catch(error => reject(error));
-                    }
-                    return reject(reason);
-                })
-        );
-    }
 
     get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
@@ -75,6 +38,17 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.post(call.url, call.body, {
+            headers: this.getAngularHeaders(options ? options.headers : undefined)
+        });
+
+        return this.mapAngularObservable(angularObs, call, options);
+    }
+
+    patch<TError extends any, TRawData extends any>(
+        call: IHttpPatchQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+        const angularObs = this.http.patch(call.url, call.body, {
             headers: this.getAngularHeaders(options ? options.headers : undefined)
         });
 
@@ -103,14 +77,6 @@ export class AngularHttpService implements IHttpService {
         return this.mapAngularObservable(angularObs, call, options);
     }
 
-    private getRetryTimeout(attempt: number): number {
-        return Math.pow(2, attempt) * 100;
-    }
-
-    private promiseRetryWait(ms: number): Promise<number> {
-        return new Promise<number>(r => setTimeout(r, ms));
-    }
-
     private mapAngularObservable<TError extends any, TRawData extends any>(
         obs: Observable<any>,
         call: IHttpQueryCall<TError>,
@@ -125,11 +91,12 @@ export class AngularHttpService implements IHttpService {
                     }
             ),
             retryWhen(
-                retryStrategy.strategy({
-                    maxRetryAttempts: options && options.maxRetryAttempts ? options.maxRetryAttempts : 0,
-                    useRetryForResponseCodes:
-                        options && options.useRetryForResponseCodes ? options.useRetryForResponseCodes : []
-                })
+                observableRetryStrategy.strategy(
+                    retryService.getRetryStrategyFromStrategyOptions(options?.retryStrategy),
+                    {
+                        startTime: new Date()
+                    }
+                )
             ),
             catchError(error => {
                 if (options && options.logErrorToConsole) {
