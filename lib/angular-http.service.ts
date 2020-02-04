@@ -92,7 +92,7 @@ export class AngularHttpService implements IHttpService {
             ),
             retryWhen(
                 observableRetryStrategy.strategy(
-                    retryService.getRetryStrategyFromStrategyOptions(options?.retryStrategy),
+                    retryService.getRetryStrategyFromStrategyOptions(options && options.retryStrategy ? options.retryStrategy : undefined),
                     {
                         startTime: new Date()
                     }
@@ -100,7 +100,7 @@ export class AngularHttpService implements IHttpService {
             ),
             catchError(error => {
                 if (options && options.logErrorToConsole) {
-                    console.warn(`Kentico Kontent SDK encountered an error posting data: `, error);
+                    console.warn(`Kentico Kontent Angular HTTP service encountered an error: `, error);
                 }
 
                 return throwError(<IBaseResponseError<TError>>{
