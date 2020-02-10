@@ -9,10 +9,10 @@ This library uses Angular's `HttpClient` to make http requests and can be used o
 
 In table below you can see what version of this library to use depending on your Angular version.
 
-| Angular 9 | ~4.0.0 |
+| Angular version | This library version|
 |-----------|-------|
 | Angular 8 | ~3.0.0 |
-|-----------|-------|
+| Angular 9 | ~4.0.0 |
 | Angular 7 | 2.0.0 |
 
 ## Why and when should you use this library? 
