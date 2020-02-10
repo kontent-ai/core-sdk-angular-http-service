@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/Kentico/kontent-angular-http-service/compare/v3.0.0...v4.0.0) (2020-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* adds support for Angular 9
+
+### Features
+
+* adds support for Angular 9 ([2502e26](https://github.com/Kentico/kontent-angular-http-service/commit/2502e262ba6c2f3bb549930bd6812dfb3173f744))
+
+
+### Bug Fixes
+
+* fixes link in packag.ejson ([bd6903a](https://github.com/Kentico/kontent-angular-http-service/commit/bd6903a162ddd9e11fa58c1765c5c0dc3a51c7b7))
+
 ## [3.0.0](https://github.com///compare/v2.1.0...v3.0.0) (2020-02-04)
 
 
