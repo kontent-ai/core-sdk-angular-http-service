@@ -88,7 +88,8 @@ export class AngularHttpService implements IHttpService {
                     <IBaseResponse<TRawData>>{
                         data: response,
                         response: undefined,
-                        headers: []
+                        headers: [],
+                        status: 0
                     }
             ),
             retryWhen(
