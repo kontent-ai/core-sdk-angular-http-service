@@ -84,21 +84,25 @@ export class AngularHttpService implements IHttpService {
     ): Observable<IBaseResponse<TRawData>> {
         return obs.pipe(
             map(
-                response =>
+                (response) =>
                     <IBaseResponse<TRawData>>{
                         data: response,
-                        response: undefined
+                        response: undefined,
+                        headers: [],
+                        status: 0
                     }
             ),
             retryWhen(
                 observableRetryStrategy.strategy(
-                    retryService.getRetryStrategyFromStrategyOptions(options && options.retryStrategy ? options.retryStrategy : undefined),
+                    retryService.getRetryStrategyFromStrategyOptions(
+                        options && options.retryStrategy ? options.retryStrategy : undefined
+                    ),
                     {
                         startTime: new Date()
                     }
                 )
             ),
-            catchError(error => {
+            catchError((error) => {
                 if (options && options.logErrorToConsole) {
                     console.warn(`Kentico Kontent Angular HTTP service encountered an error: `, error);
                 }
@@ -116,9 +120,9 @@ export class AngularHttpService implements IHttpService {
             return undefined;
         }
 
-        const angularHeaders = new HttpHeaders();
+        let angularHeaders = new HttpHeaders();
         for (const header of headers) {
-            angularHeaders.append(header.header, header.value);
+            angularHeaders = angularHeaders.append(header.header, header.value);
         }
 
         return angularHeaders;
