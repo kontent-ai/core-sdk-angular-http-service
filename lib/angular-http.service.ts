@@ -18,7 +18,9 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AngularHttpService implements IHttpService {
     constructor(private http: HttpClient) {}
 
@@ -27,7 +29,7 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.get(call.url, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined)
+            headers: this.getAngularHeaders(options?.headers)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -38,7 +40,7 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.post(call.url, call.body, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined)
+            headers: this.getAngularHeaders(options?.headers)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -49,7 +51,7 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.patch(call.url, call.body, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined)
+            headers: this.getAngularHeaders(options?.headers)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -60,7 +62,7 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.put(call.url, call.body, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined)
+            headers: this.getAngularHeaders(options?.headers)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -71,7 +73,7 @@ export class AngularHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.delete(call.url, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined)
+            headers: this.getAngularHeaders(options?.headers)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -87,9 +89,9 @@ export class AngularHttpService implements IHttpService {
                 (response) =>
                     <IBaseResponse<TRawData>>{
                         data: response,
-                        response: undefined,
+                        response: response,
                         headers: [],
-                        status: 0
+                        status: response
                     }
             ),
             retryWhen(
@@ -115,12 +117,13 @@ export class AngularHttpService implements IHttpService {
         );
     }
 
-    private getAngularHeaders(headers?: IHeader[]): HttpHeaders | undefined {
+    private getAngularHeaders(headers?: IHeader[]): HttpHeaders {
+        let angularHeaders = new HttpHeaders();
+
         if (!headers) {
-            return undefined;
+            return angularHeaders;
         }
 
-        let angularHeaders = new HttpHeaders();
         for (const header of headers) {
             angularHeaders = angularHeaders.append(header.header, header.value);
         }
