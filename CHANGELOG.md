@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/Kentico/kontent-angular-http-service/compare/v4.1.0...v4.2.0) (2020-10-07)
+
+
+### Features
+
+* updates library to latest dependencies & Angular 10 ([d581539](https://github.com/Kentico/kontent-angular-http-service/commit/d58153931b44f72bf53845ec3e1bc8f2837484eb))
+
 ## [4.1.0](https://github.com/Kentico/kontent-angular-http-service/compare/v4.0.0...v4.1.0) (2020-05-08)
 
 
