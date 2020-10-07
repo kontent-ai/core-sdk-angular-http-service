@@ -2,13 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
     IBaseResponse,
-    IBaseResponseError,
     IHeader,
     IHttpDeleteQueryCall,
     IHttpGetQueryCall,
     IHttpPostQueryCall,
     IHttpPutQueryCall,
-    IHttpQueryCall,
     IHttpQueryOptions,
     IHttpService,
     observableRetryStrategy,
@@ -24,64 +22,63 @@ import { catchError, map, retryWhen } from 'rxjs/operators';
 export class AngularHttpService implements IHttpService {
     constructor(private http: HttpClient) {}
 
-    get<TError extends any, TRawData extends any>(
-        call: IHttpGetQueryCall<TError>,
+    get<TRawData extends any>(
+        call: IHttpGetQueryCall,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.get(call.url, {
             headers: this.getAngularHeaders(options?.headers)
         });
 
-        return this.mapAngularObservable(angularObs, call, options);
+        return this.mapAngularObservable(angularObs, options);
     }
 
-    post<TError extends any, TRawData extends any>(
-        call: IHttpPostQueryCall<TError>,
+    post<TRawData extends any>(
+        call: IHttpPostQueryCall,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.post(call.url, call.body, {
             headers: this.getAngularHeaders(options?.headers)
         });
 
-        return this.mapAngularObservable(angularObs, call, options);
+        return this.mapAngularObservable(angularObs, options);
     }
 
-    patch<TError extends any, TRawData extends any>(
-        call: IHttpPatchQueryCall<TError>,
+    patch<TRawData extends any>(
+        call: IHttpPatchQueryCall,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.patch(call.url, call.body, {
             headers: this.getAngularHeaders(options?.headers)
         });
 
-        return this.mapAngularObservable(angularObs, call, options);
+        return this.mapAngularObservable(angularObs, options);
     }
 
-    put<TError extends any, TRawData extends any>(
-        call: IHttpPutQueryCall<TError>,
+    put<TRawData extends any>(
+        call: IHttpPutQueryCall,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.put(call.url, call.body, {
             headers: this.getAngularHeaders(options?.headers)
         });
 
-        return this.mapAngularObservable(angularObs, call, options);
+        return this.mapAngularObservable(angularObs, options);
     }
 
-    delete<TError extends any, TRawData extends any>(
-        call: IHttpDeleteQueryCall<TError>,
+    delete<TRawData extends any>(
+        call: IHttpDeleteQueryCall,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         const angularObs = this.http.delete(call.url, {
             headers: this.getAngularHeaders(options?.headers)
         });
 
-        return this.mapAngularObservable(angularObs, call, options);
+        return this.mapAngularObservable(angularObs, options);
     }
 
-    private mapAngularObservable<TError extends any, TRawData extends any>(
+    private mapAngularObservable<TRawData extends any>(
         obs: Observable<any>,
-        call: IHttpQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         return obs.pipe(
@@ -96,9 +93,7 @@ export class AngularHttpService implements IHttpService {
             ),
             retryWhen(
                 observableRetryStrategy.strategy(
-                    retryService.getRetryStrategyFromStrategyOptions(
-                        options && options.retryStrategy ? options.retryStrategy : undefined
-                    ),
+                    retryService.getRetryStrategyFromStrategyOptions(options?.retryStrategy),
                     {
                         startTime: new Date()
                     }
@@ -109,10 +104,7 @@ export class AngularHttpService implements IHttpService {
                     console.warn(`Kentico Kontent Angular HTTP service encountered an error: `, error);
                 }
 
-                return throwError(<IBaseResponseError<TError>>{
-                    originalError: error,
-                    mappedError: call.mapError(error)
-                });
+                return throwError(error);
             })
         );
     }
