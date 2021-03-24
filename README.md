@@ -1,6 +1,8 @@
 
 # Angular Http service
 
+[![Build](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/test.yml/badge.svg)](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/test.yml)
+
 This is an implementation of the `IHttpService` that can be used instead of the default http service available in [Core package](https://www.npmjs.com/package/kentico-kontent-core) that uses `axios` package. 
 
 This library uses Angular's `HttpClient` to make http requests and can be used only in Angular applications.
