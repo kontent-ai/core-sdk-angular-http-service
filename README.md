@@ -14,6 +14,10 @@ This library uses Angular's `HttpClient` to make http requests and can be used o
 
 If you need to use `server side rendering with prerender` using Angular universal, you have to use Angular's built-in Http service because otherwise Angular will not wait until the requests are fetched from server and therefore your code would not be reflected in HTML of your page. You can find more information about the issue [here](https://github.com/Kentico/kentico-kontent-js/blob/master/doc/delivery.md)
 
+## Sample app
+
+Sample Angular using this implementation of `IHttpService` can be found at https://github.com/Enngage/kontent-delivery-angular-sample
+
 ## Example
 
 Snippet from angular's component: 
