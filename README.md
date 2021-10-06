@@ -1,4 +1,7 @@
 
+[![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
+[![Build](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/main.yml/badge.svg)](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/main.yml)
+
 # Angular Http service
 
 This is an implementation of the `IHttpService` that can be used instead of the default http service available in [Core package](https://www.npmjs.com/package/kentico-kontent-core) that uses `axios` package. 

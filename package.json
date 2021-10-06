@@ -22,8 +22,7 @@
     "publish:lib:beta": "npm run build:lib && npm publish dist --access public --tag=next",
     "prepublishOnly": "npm run ts-lint:check && node prevent-direct-publish",
     "build:all": "npm run build:lib",
-    "test:all": "node fake-test && npm run build:lib",
-    "test:travis": "node fake-test",
+    "test:all": "npm run build:lib",
     "ts-lint-local": "./node_modules/.bin/tslint",
     "ts-lint:fix": "npm run ts-lint:check -- --fix",
     "ts-lint:check": "npm run ts-lint-local -- --project ./tsconfig.json"
