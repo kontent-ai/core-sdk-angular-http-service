@@ -1,112 +1,245 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-    IBaseResponse,
     IHeader,
+    IHttpService,
+    IResponse,
     IHttpDeleteQueryCall,
     IHttpGetQueryCall,
+    IHttpPatchQueryCall,
     IHttpPostQueryCall,
     IHttpPutQueryCall,
     IHttpQueryOptions,
-    IHttpService,
-    observableRetryStrategy,
-    retryService,
-    IHttpPatchQueryCall
+    IHttpCancelRequestToken,
+    IRetryStrategyOptions,
+    retryHelper,
+    httpDebugger
 } from '@kentico/kontent-core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, retryWhen } from 'rxjs/operators';
+import { ResponseType } from 'axios';
+
+type CancelToken = null;
 
 @Injectable({
     providedIn: 'root'
 })
-export class AngularHttpService implements IHttpService {
+export class AngularHttpService implements IHttpService<CancelToken> {
     constructor(private http: HttpClient) {}
 
-    get<TRawData extends any>(
+    async getAsync<TRawData>(
         call: IHttpGetQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        const angularObs = this.http.get(call.url, {
-            headers: this.getAngularHeaders(options?.headers)
-        });
+        options?: IHttpQueryOptions<CancelToken>
+    ): Promise<IResponse<TRawData>> {
+        const retryStrategyOptions = options?.retryStrategy ?? retryHelper.defaultRetryStrategy;
 
-        return this.mapAngularObservable(angularObs, options);
+        return await this.runWithRetryAsync<TRawData>({
+            retryAttempt: 0,
+            url: call.url,
+            retryStrategy: retryStrategyOptions,
+            call: async (retryAttempt) => {
+                httpDebugger.debugStartHttpRequest();
+
+                const angularResponse = await this.http
+                    .get<TRawData>(call.url, {
+                        headers: this.getAngularHeaders(options?.headers ?? []),
+                        responseType: this.getResponseType(options) as any,
+                        observe: 'response'
+                    })
+                    .toPromise();
+
+                const response: IResponse<TRawData> = {
+                    data: angularResponse.body as TRawData,
+                    rawResponse: angularResponse,
+                    headers: this.extractHeadersFromAngularResponse(angularResponse),
+                    status: angularResponse.status,
+                    retryStrategy: {
+                        options: retryStrategyOptions,
+                        retryAttempts: retryAttempt
+                    }
+                };
+
+                httpDebugger.debugSuccessHttpRequest();
+                return response;
+            }
+        });
     }
 
-    post<TRawData extends any>(
+    async postAsync<TRawData>(
         call: IHttpPostQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        const angularObs = this.http.post(call.url, call.body, {
-            headers: this.getAngularHeaders(options?.headers)
-        });
+        options?: IHttpQueryOptions<CancelToken>
+    ): Promise<IResponse<TRawData>> {
+        const retryStrategyOptions = options?.retryStrategy ?? retryHelper.defaultRetryStrategy;
 
-        return this.mapAngularObservable(angularObs, options);
+        return await this.runWithRetryAsync<TRawData>({
+            retryAttempt: 0,
+            url: call.url,
+            retryStrategy: retryStrategyOptions,
+            call: async (retryAttempt) => {
+                httpDebugger.debugStartHttpRequest();
+
+                const angularResponse = await this.http
+                    .post<TRawData>(call.url, call.body, {
+                        headers: this.getAngularHeaders(options?.headers ?? []),
+                        responseType: this.getResponseType(options) as any,
+                        observe: 'response'
+                    })
+                    .toPromise();
+
+                const response: IResponse<TRawData> = {
+                    data: angularResponse.body as TRawData,
+                    rawResponse: angularResponse,
+                    headers: this.extractHeadersFromAngularResponse(angularResponse),
+                    status: angularResponse.status,
+                    retryStrategy: {
+                        options: retryStrategyOptions,
+                        retryAttempts: retryAttempt
+                    }
+                };
+
+                httpDebugger.debugSuccessHttpRequest();
+                return response;
+            }
+        });
     }
 
-    patch<TRawData extends any>(
-        call: IHttpPatchQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        const angularObs = this.http.patch(call.url, call.body, {
-            headers: this.getAngularHeaders(options?.headers)
-        });
-
-        return this.mapAngularObservable(angularObs, options);
-    }
-
-    put<TRawData extends any>(
+    async putAsync<TRawData>(
         call: IHttpPutQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        const angularObs = this.http.put(call.url, call.body, {
-            headers: this.getAngularHeaders(options?.headers)
-        });
+        options?: IHttpQueryOptions<CancelToken>
+    ): Promise<IResponse<TRawData>> {
+        const retryStrategyOptions = options?.retryStrategy ?? retryHelper.defaultRetryStrategy;
 
-        return this.mapAngularObservable(angularObs, options);
+        return await this.runWithRetryAsync<TRawData>({
+            retryAttempt: 0,
+            url: call.url,
+            retryStrategy: retryStrategyOptions,
+            call: async (retryAttempt) => {
+                httpDebugger.debugStartHttpRequest();
+
+                const angularResponse = await this.http
+                    .put<TRawData>(call.url, call.body, {
+                        headers: this.getAngularHeaders(options?.headers ?? []),
+                        responseType: this.getResponseType(options) as any,
+                        observe: 'response'
+                    })
+                    .toPromise();
+
+                const response: IResponse<TRawData> = {
+                    data: angularResponse.body as TRawData,
+                    rawResponse: angularResponse,
+                    headers: this.extractHeadersFromAngularResponse(angularResponse),
+                    status: angularResponse.status,
+                    retryStrategy: {
+                        options: retryStrategyOptions,
+                        retryAttempts: retryAttempt
+                    }
+                };
+
+                httpDebugger.debugSuccessHttpRequest();
+                return response;
+            }
+        });
     }
 
-    delete<TRawData extends any>(
+    async patchAsync<TRawData>(
+        call: IHttpPatchQueryCall,
+        options?: IHttpQueryOptions<CancelToken>
+    ): Promise<IResponse<TRawData>> {
+        const retryStrategyOptions = options?.retryStrategy ?? retryHelper.defaultRetryStrategy;
+
+        return await this.runWithRetryAsync<TRawData>({
+            retryAttempt: 0,
+            url: call.url,
+            retryStrategy: retryStrategyOptions,
+            call: async (retryAttempt) => {
+                httpDebugger.debugStartHttpRequest();
+
+                const angularResponse = await this.http
+                    .patch<TRawData>(call.url, call.body, {
+                        headers: this.getAngularHeaders(options?.headers ?? []),
+                        responseType: this.getResponseType(options) as any,
+                        observe: 'response'
+                    })
+                    .toPromise();
+
+                const response: IResponse<TRawData> = {
+                    data: angularResponse.body as TRawData,
+                    rawResponse: angularResponse,
+                    headers: this.extractHeadersFromAngularResponse(angularResponse),
+                    status: angularResponse.status,
+                    retryStrategy: {
+                        options: retryStrategyOptions,
+                        retryAttempts: retryAttempt
+                    }
+                };
+
+                httpDebugger.debugSuccessHttpRequest();
+                return response;
+            }
+        });
+    }
+
+    async deleteAsync<TRawData>(
         call: IHttpDeleteQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        const angularObs = this.http.delete(call.url, {
-            headers: this.getAngularHeaders(options?.headers)
-        });
+        options?: IHttpQueryOptions<CancelToken>
+    ): Promise<IResponse<TRawData>> {
+        const retryStrategyOptions = options?.retryStrategy ?? retryHelper.defaultRetryStrategy;
 
-        return this.mapAngularObservable(angularObs, options);
+        return await this.runWithRetryAsync<TRawData>({
+            retryAttempt: 0,
+            url: call.url,
+            retryStrategy: retryStrategyOptions,
+            call: async (retryAttempt) => {
+                httpDebugger.debugStartHttpRequest();
+
+                const angularResponse = await this.http
+                    .delete<TRawData>(call.url, {
+                        headers: this.getAngularHeaders(options?.headers ?? []),
+                        responseType: this.getResponseType(options) as any,
+                        observe: 'response'
+                    })
+                    .toPromise();
+
+                const response: IResponse<TRawData> = {
+                    data: angularResponse.body as TRawData,
+                    rawResponse: angularResponse,
+                    headers: this.extractHeadersFromAngularResponse(angularResponse),
+                    status: angularResponse.status,
+                    retryStrategy: {
+                        options: retryStrategyOptions,
+                        retryAttempts: retryAttempt
+                    }
+                };
+
+                httpDebugger.debugSuccessHttpRequest();
+                return response;
+            }
+        });
     }
 
-    private mapAngularObservable<TRawData extends any>(
-        obs: Observable<any>,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return obs.pipe(
-            map(
-                (response) =>
-                    <IBaseResponse<TRawData>>{
-                        data: response,
-                        response: response,
-                        headers: [],
-                        status: response
-                    }
-            ),
-            retryWhen(
-                observableRetryStrategy.strategy(
-                    retryService.getRetryStrategyFromStrategyOptions(options?.retryStrategy),
-                    {
-                        startTime: new Date()
-                    }
-                )
-            ),
-            catchError((error) => {
-                if (options && options.logErrorToConsole) {
-                    console.warn(`Kentico Kontent Angular HTTP service encountered an error: `, error);
-                }
-
-                return throwError(error);
-            })
+    createCancelToken(): IHttpCancelRequestToken<CancelToken> {
+        throw Error(
+            `Cancel tokens are not supported in Angular Http Service. You may convert Promise into Rxjs Observable and use unsubscribe method as an alternative.`
         );
+    }
+
+    private extractHeadersFromAngularResponse(httpResponse: HttpResponse<any>): IHeader[] {
+        const headers: IHeader[] = [];
+
+        for (const headerName of httpResponse.headers.keys()) {
+            headers.push({
+                header: headerName,
+                value: httpResponse.headers.get(headerName) ?? ''
+            });
+        }
+
+        return headers;
+    }
+
+    private getResponseType(options?: IHttpQueryOptions<CancelToken>): ResponseType {
+        if (!options?.responseType) {
+            return 'json';
+        }
+
+        return options.responseType;
     }
 
     private getAngularHeaders(headers?: IHeader[]): HttpHeaders {
@@ -121,5 +254,47 @@ export class AngularHttpService implements IHttpService {
         }
 
         return angularHeaders;
+    }
+
+    private async runWithRetryAsync<TRawData>(data: {
+        url: string;
+        retryAttempt: number;
+        call: (retryAttempt: number) => Promise<IResponse<TRawData>>;
+        retryStrategy: IRetryStrategyOptions;
+    }): Promise<IResponse<TRawData>> {
+        try {
+            return await data.call(data.retryAttempt);
+        } catch (error) {
+            const retryResult = retryHelper.getRetryErrorResult({
+                error: error,
+                retryAttempt: data.retryAttempt,
+                retryStrategy: data.retryStrategy
+            });
+
+            if (retryResult.canRetry) {
+                httpDebugger.debugRetryHttpRequest();
+
+                // wait time before retrying
+                await new Promise((resolve) => setTimeout(resolve, retryResult.retryInMs));
+
+                // retry request
+                console.warn(
+                    `Retry attempt '${data.retryAttempt + 1}' from a maximum of '${
+                        retryResult.maxRetries
+                    }' retries. Request url: '${data.url}'`
+                );
+
+                return await this.runWithRetryAsync({
+                    call: data.call,
+                    retryStrategy: data.retryStrategy,
+                    retryAttempt: data.retryAttempt + 1,
+                    url: data.url
+                });
+            }
+
+            console.error(`Executing '${data.url}' failed. Request was retried '${data.retryAttempt}' times. `, error);
+
+            throw error;
+        }
     }
 }
