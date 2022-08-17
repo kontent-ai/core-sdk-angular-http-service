@@ -44,5 +44,8 @@
       }
     }
   },
-  "defaultProject": "kontent-angular-http-service"
+  "defaultProject": "kontent-angular-http-service",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -3,11 +3,6 @@
   "dest": "dist",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "lib/public_api.ts",
-    "umdModuleIds": {
-      "@kentico/kontent-core" : "kontentCore"
-    }
-  },
-  "whitelistedNonPeerDependencies": [
-  ]
+    "entryFile": "lib/public_api.ts"
+  }
 }
