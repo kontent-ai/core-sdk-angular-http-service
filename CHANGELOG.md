@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v4.4.0-1...v5.0.0) (2022-08-17)
+
+
+### Features
+
+* updates license & package name ([2ca5ed7](https://github.com/kontent-ai/core-sdk-angular-http-service/commit/2ca5ed740933ab54bb01d67b12ac8a034ba8ec1c))
+
 ## [4.4.0-1](https://github.com/Kentico/kontent-angular-http-service/compare/v4.4.0-0...v4.4.0-1) (2022-08-17)
 
 ## [4.4.0-0](https://github.com/Kentico/kontent-angular-http-service/compare/v4.3.0-0...v4.4.0-0) (2022-08-17)

@@ -1,6 +1,6 @@
 {
   "name": "@kontent-ai/core-sdk-angular-http-service",
-  "version": "4.4.0-3",
+  "version": "5.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/kontent-ai/core-sdk-angular-http-service"
@@ -16,6 +16,7 @@
   "private": false,
   "scripts": {
     "release": "standard-version",
+    "release:major": "npm run ts-lint:check && standard-version --release-as major",
     "release:beta": "standard-version --prerelease",
     "build:lib": "ng build kontent-angular-http-service",
     "publish:lib": "npm run build:lib && npm publish ./dist --access public",
@@ -46,7 +47,6 @@
     "core-js": "3.24.1",
     "rxjs": "7.5.6",
     "zone.js": "0.11.8",
-    "@kentico/kontent-core": "9.5.0",
     "@angular/compiler-cli": "14.1.2",
     "@angular-devkit/build-ng-packagr": "0.1002.0",
     "@angular-devkit/build-angular": "14.1.2",
