@@ -1,5 +1,5 @@
 
-[![Build](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/main.yml/badge.svg)](https://github.com/Kentico/kontent-angular-http-service/actions/workflows/main.yml)
+[![Build](https://github.com/kontent-ai/core-sdk-angular-http-service/actions/workflows/main.yml/badge.svg)](https://github.com/kontent-ai/core-sdk-angular-http-service/actions/workflows/main.yml)
 [![GitHub license](https://img.shields.io/github/license/kontent-ai/core-sdk-angular-http-service)](https://github.com/kontent-ai/core-sdk-angular-http-service/blob/master/LICENSE.md)
 [![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
 [![GitHub issues](https://img.shields.io/github/issues/kontent-ai/core-sdk-angular-http-service)](https://github.com/kontent-ai/core-sdk-angular-http-service/issues)

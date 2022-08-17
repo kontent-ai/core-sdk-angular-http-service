@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [5.0.0](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v4.4.0-1...v5.0.0) (2022-08-17)
 
+* Migrates to Angular 14 & @kontent-ai/core-sdk 10,
 
 ### Features
 
