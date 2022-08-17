@@ -16,7 +16,7 @@
   "private": false,
   "scripts": {
     "release": "standard-version",
-    "prerelease": "standard-version --prerelease",
+    "release:beta": "standard-version --prerelease",
     "build:lib": "ng build kontent-angular-http-service",
     "publish:lib": "npm run build:lib && npm publish dist --access public",
     "publish:lib:beta": "npm run build:lib && npm publish dist --access public --tag=next",
