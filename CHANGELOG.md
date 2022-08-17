@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0-0](https://github.com/Kentico/kontent-angular-http-service/compare/v4.3.0-0...v4.4.0-0) (2022-08-17)
+
+
+### Features
+
+* updates to Angular 14 & kontent-ai/core-sdk@14 ([f47a6e9](https://github.com/Kentico/kontent-angular-http-service/commit/f47a6e96b2ab14c16ed69b4fff330fbf4814b06e))
+
 ## [4.3.0-0](https://github.com/Kentico/kontent-angular-http-service/compare/v4.2.1-0...v4.3.0-0) (2021-10-06)
 
 
