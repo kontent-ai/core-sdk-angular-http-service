@@ -23,9 +23,8 @@
     "prepublishOnly": "npm run ts-lint:check && node prevent-direct-publish",
     "build:all": "npm run build:lib",
     "test:all": "npm run build:lib",
-    "ts-lint-local": "./node_modules/.bin/tslint",
     "ts-lint:fix": "npm run ts-lint:check -- --fix",
-    "ts-lint:check": "npm run ts-lint-local -- --project ./tsconfig.json"
+    "ts-lint:check": "tslint --project ./tsconfig.json"
   },
   "peerDependencies": {
     "@angular/common": "^14.0.0",
