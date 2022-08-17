@@ -1,6 +1,6 @@
 {
   "name": "@kentico/kontent-angular-http-service",
-  "version": "4.3.0-0",
+  "version": "4.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kontent-angular-http-service"
@@ -9,9 +9,9 @@
   "license": "MIT",
   "description": "Implementation of IHttpService using Angular HttpClient",
   "keywords": [
-    "Kentico Kontent",
-    "Kentico Kontent Angular",
-    "Kentico Kontent Http service"
+    "Kontent.ai Angular HTTP Client",
+    "Kontent.ai Angular ",
+    "Kontent.ai HTTP Client"
   ],
   "private": false,
   "scripts": {
@@ -28,32 +28,33 @@
     "ts-lint:check": "npm run ts-lint-local -- --project ./tsconfig.json"
   },
   "peerDependencies": {
-    "@angular/common": "^12.0.0",
-    "@angular/core": "^12.0.0",
-    "@kentico/kontent-core": "^9.2.0",
-    "rxjs": "^6.0.0"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@kontent-ai/core-sdk": "^10.0.0",
+    "rxjs": "^7.5.0"
   },
   "devDependencies": {
-    "standard-version": "9.3.1",
-    "@angular/animations": "12.2.8",
-    "@angular/common": "12.2.8",
-    "@angular/compiler": "12.2.8",
-    "@angular/core": "12.2.8",
+    "@kontent-ai/core-sdk": "^10.0.0",
+    "standard-version": "9.5.0",
+    "@angular/animations": "14.1.2",
+    "@angular/common": "14.1.2",
+    "@angular/compiler": "14.1.2",
+    "@angular/core": "14.1.2",
     "@angular/http": "7.2.16",
-    "@angular/platform-browser": "12.2.8",
-    "@angular/platform-browser-dynamic": "12.2.8",
-    "core-js": "3.18.2",
-    "rxjs": "6.6.3",
-    "zone.js": "0.11.4",
-    "@kentico/kontent-core": "9.2.0",
-    "@angular/compiler-cli": "12.2.8",
+    "@angular/platform-browser": "14.1.2",
+    "@angular/platform-browser-dynamic": "14.1.2",
+    "core-js": "3.24.1",
+    "rxjs": "7.5.6",
+    "zone.js": "0.11.8",
+    "@kentico/kontent-core": "9.5.0",
+    "@angular/compiler-cli": "14.1.2",
     "@angular-devkit/build-ng-packagr": "0.1002.0",
-    "@angular-devkit/build-angular": "12.2.8",
-    "ng-packagr": "12.2.2",
-    "tslib": "2.3.1",
-    "typescript": "4.2.4",
-    "@angular/cli": "12.2.8",
-    "@types/node": "16.10.3",
+    "@angular-devkit/build-angular": "14.1.2",
+    "ng-packagr": "14.1.0",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4",
+    "@angular/cli": "14.1.2",
+    "@types/node": "18.7.6",
     "tslint": "6.1.3"
   }
 }

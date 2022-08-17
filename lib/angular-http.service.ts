@@ -14,8 +14,9 @@ import {
     IRetryStrategyOptions,
     retryHelper,
     httpDebugger
-} from '@kentico/kontent-core';
+} from '@kontent-ai/core-sdk';
 import { ResponseType } from 'axios';
+import { firstValueFrom } from 'rxjs';
 
 type CancelToken = null;
 
@@ -38,13 +39,13 @@ export class AngularHttpService implements IHttpService<CancelToken> {
             call: async (retryAttempt) => {
                 httpDebugger.debugStartHttpRequest();
 
-                const angularResponse = await this.http
-                    .get<TRawData>(call.url, {
+                const angularResponse = await firstValueFrom(
+                    this.http.get<TRawData>(call.url, {
                         headers: this.getAngularHeaders(options?.headers ?? []),
                         responseType: this.getResponseType(options) as any,
                         observe: 'response'
                     })
-                    .toPromise();
+                );
 
                 const response: IResponse<TRawData> = {
                     data: angularResponse.body as TRawData,
@@ -76,13 +77,13 @@ export class AngularHttpService implements IHttpService<CancelToken> {
             call: async (retryAttempt) => {
                 httpDebugger.debugStartHttpRequest();
 
-                const angularResponse = await this.http
-                    .post<TRawData>(call.url, call.body, {
+                const angularResponse = await firstValueFrom(
+                    this.http.post<TRawData>(call.url, call.body, {
                         headers: this.getAngularHeaders(options?.headers ?? []),
                         responseType: this.getResponseType(options) as any,
                         observe: 'response'
                     })
-                    .toPromise();
+                );
 
                 const response: IResponse<TRawData> = {
                     data: angularResponse.body as TRawData,
@@ -114,13 +115,13 @@ export class AngularHttpService implements IHttpService<CancelToken> {
             call: async (retryAttempt) => {
                 httpDebugger.debugStartHttpRequest();
 
-                const angularResponse = await this.http
-                    .put<TRawData>(call.url, call.body, {
+                const angularResponse = await firstValueFrom(
+                    this.http.put<TRawData>(call.url, call.body, {
                         headers: this.getAngularHeaders(options?.headers ?? []),
                         responseType: this.getResponseType(options) as any,
                         observe: 'response'
                     })
-                    .toPromise();
+                );
 
                 const response: IResponse<TRawData> = {
                     data: angularResponse.body as TRawData,
@@ -152,13 +153,13 @@ export class AngularHttpService implements IHttpService<CancelToken> {
             call: async (retryAttempt) => {
                 httpDebugger.debugStartHttpRequest();
 
-                const angularResponse = await this.http
-                    .patch<TRawData>(call.url, call.body, {
+                const angularResponse = await firstValueFrom(
+                    this.http.patch<TRawData>(call.url, call.body, {
                         headers: this.getAngularHeaders(options?.headers ?? []),
                         responseType: this.getResponseType(options) as any,
                         observe: 'response'
                     })
-                    .toPromise();
+                );
 
                 const response: IResponse<TRawData> = {
                     data: angularResponse.body as TRawData,
@@ -190,13 +191,13 @@ export class AngularHttpService implements IHttpService<CancelToken> {
             call: async (retryAttempt) => {
                 httpDebugger.debugStartHttpRequest();
 
-                const angularResponse = await this.http
-                    .delete<TRawData>(call.url, {
+                const angularResponse = await firstValueFrom(
+                    this.http.delete<TRawData>(call.url, {
                         headers: this.getAngularHeaders(options?.headers ?? []),
                         responseType: this.getResponseType(options) as any,
                         observe: 'response'
                     })
-                    .toPromise();
+                );
 
                 const response: IResponse<TRawData> = {
                     data: angularResponse.body as TRawData,

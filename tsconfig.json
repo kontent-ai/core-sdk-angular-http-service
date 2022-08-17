@@ -30,8 +30,8 @@
       "dom"
     ],
     "paths": {
-      "kentico-kontent-angular-http-service": [
-        "dist/kentico-kontent-angular-http-service"
+      "angular-http-service": [
+        "dist/angular-http-service"
       ]
     }
   },
