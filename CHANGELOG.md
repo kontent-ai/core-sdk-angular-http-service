@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.4](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.3...v5.0.4) (2024-03-26)
+
 ### [5.0.3](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.2...v5.0.3) (2024-02-29)
 
 ### [5.0.2](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.1...v5.0.2) (2023-12-08)
