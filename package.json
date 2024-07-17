@@ -45,7 +45,7 @@
     "@angular/http": "7.2.16",
     "@angular/platform-browser": "14.1.2",
     "@angular/platform-browser-dynamic": "14.1.2",
-    "@kontent-ai/core-sdk": "^10.4.0",
+    "@kontent-ai/core-sdk": "^10.5.0",
     "@types/node": "18.7.6",
     "core-js": "3.24.1",
     "ng-packagr": "14.1.0",
