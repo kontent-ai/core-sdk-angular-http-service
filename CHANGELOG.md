@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.7](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.6...v5.0.7) (2024-07-31)
+
+
+### Bug Fixes
+
+* upgrade @kontent-ai/core-sdk from 10.4.0 to 10.6.0 ([4ab1f65](https://github.com/kontent-ai/core-sdk-angular-http-service/commit/4ab1f652a7c72dd0fff5542ea1c5088812f67dc1))
+* upgrade multiple dependencies with Snyk ([25922ed](https://github.com/kontent-ai/core-sdk-angular-http-service/commit/25922ed381d108b92a3ebf20016f8435fc3b3e7b))
+* upgrade rxjs from 7.5.6 to 7.8.1 ([110dada](https://github.com/kontent-ai/core-sdk-angular-http-service/commit/110dadacfd1e6feae74c1db24372ef0995148c49))
+
 ### [5.0.6](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.5...v5.0.6) (2024-06-27)
 
 ### [5.0.5](https://github.com/kontent-ai/core-sdk-angular-http-service/compare/v5.0.4...v5.0.5) (2024-03-26)
